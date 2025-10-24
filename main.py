@@ -1,28 +1,26 @@
-import os
-
 lookup_table = {'A' : 'Z', 'B' : 'Y', 'C' : 'X', 'D' : 'W', 'E' : 'V',
         'F' : 'U', 'G' : 'T', 'H' : 'S', 'I' : 'R', 'J' : 'Q',
         'K' : 'P', 'L' : 'O', 'M' : 'N', 'N' : 'M', 'O' : 'L',
         'P' : 'K', 'Q' : 'J', 'R' : 'I', 'S' : 'H', 'T' : 'G',
         'U' : 'F', 'V' : 'E', 'W' : 'D', 'X' : 'C', 'Y' : 'B', 'Z' : 'A'}
 
-def convert_to_atbash(msg, key):
-    cipher = ''
+def convert_to_atbash(message, key):
+    ciphertext = ''
 
-    for char in msg:
+    for char in message:
         if char.upper() not in lookup_table:
-            cipher += increment(char, key)
+            ciphertext += increment(char, key)
             continue
 
-        cipher += increment(lookup_table[char.upper()], key)
+        ciphertext += increment(lookup_table[char.upper()], key)
 
-    return cipher
+    return ciphertext
 
-def decrypt_atbash(msg, key):
+def decrypt_atbash(ciphertext, key):
     message = ''
 
-    for char in msg:
-        letter = subtract(char, key)
+    for char in ciphertext:
+        letter = decrement(char, key)
 
         if letter not in lookup_table:
             message += letter
@@ -34,14 +32,8 @@ def decrypt_atbash(msg, key):
 def increment(char, key):
     return chr( (ord(char) + key) )
 
-def subtract(char, key):
+def decrement(char, key):
     return chr( ord(char) - key )
-
-def print_ascii_values(msg):
-    ascii_values = []
-    for char in msg:
-        ascii_values.append(ord(char))
-    print(*ascii_values)
 
 def print_options():
     print("E) Encrypt a message;")
@@ -50,14 +42,14 @@ def print_options():
 
 def encrypt():
     message = input("Enter the message that you wish to encrypt:\n")
-    key = int(input("Enter the key you wish to use:\n"))
-    cipher = convert_to_atbash(message, key)
-    print("The encrypted message is:", cipher)
+    key = int(input("Enter the key you wish to use (0 means there will be no key applied):\n"))
+    ciphertext = convert_to_atbash(message, key)
+    print("The encrypted message is:", ciphertext)
 
 def decrypt():
-    cipher = input("Enter the message that you wish to decrypt:\n")
-    key = int(input("Enter the key you wish to use:\n"))
-    message = decrypt_atbash(cipher, key)
+    ciphertext = input("Enter the message that you wish to decrypt:\n")
+    key = int(input("Enter the key you wish to use (0 means there will be no key applied):\n"))
+    message = decrypt_atbash(ciphertext, key)
     print("The decrypted message is:", message)
 
 def main():
