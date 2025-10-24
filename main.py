@@ -1,8 +1,15 @@
+import os
+clear_command = ('cls' if os.name == 'nt' else 'clear')
+
 lookup_table = {'A' : 'Z', 'B' : 'Y', 'C' : 'X', 'D' : 'W', 'E' : 'V',
         'F' : 'U', 'G' : 'T', 'H' : 'S', 'I' : 'R', 'J' : 'Q',
         'K' : 'P', 'L' : 'O', 'M' : 'N', 'N' : 'M', 'O' : 'L',
         'P' : 'K', 'Q' : 'J', 'R' : 'I', 'S' : 'H', 'T' : 'G',
         'U' : 'F', 'V' : 'E', 'W' : 'D', 'X' : 'C', 'Y' : 'B', 'Z' : 'A'}
+
+def clear():
+    global clear_command
+    os.system(clear_command)
 
 def convert_to_atbash(message, key):
     ciphertext = ''
@@ -44,18 +51,22 @@ def encrypt():
     message = input("Enter the message that you wish to encrypt:\n")
     key = int(input("Enter the key you wish to use (0 means there will be no key applied):\n"))
     ciphertext = convert_to_atbash(message, key)
-    print("The encrypted message is:", ciphertext)
+    clear()
+    print("The encrypted message is:", ciphertext, '\n')
 
 def decrypt():
     ciphertext = input("Enter the message that you wish to decrypt:\n")
     key = int(input("Enter the key you wish to use (0 means there will be no key applied):\n"))
     message = decrypt_atbash(ciphertext, key)
-    print("The decrypted message is:", message)
+    clear()
+    print("The decrypted message is:", message, '\n')
 
 def main():
     while (True):
         print_options()
         user_input = input("What would you like to do?:\n").lower()
+
+        clear()
 
         if (user_input == "e"):
             encrypt()
